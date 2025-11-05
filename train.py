@@ -26,6 +26,7 @@ if __name__ == '__main__':
     parser.add_argument('dataset', help='The dataset name')
     parser.add_argument('run_name', help='The folder name used to save model, output and evaluation metrics. This can be set to any word')
     parser.add_argument('--loader', type=str, required=True, help='The data loader used to load the experimental data. This can be set to UCR, UEA, forecast_csv, forecast_csv_univar, anomaly, or anomaly_coldstart')
+    parser.add_argument('--time-feature', type=bool, default=False, help='tiem feature or not')
     parser.add_argument('--gpu', type=int, default=0, help='The gpu no. used for training and inference (defaults to 0)')
     parser.add_argument('--batch-size', type=int, default=8, help='The batch size (defaults to 8)')
     parser.add_argument('--lr', type=float, default=0.001, help='The learning rate (defaults to 0.001)')
@@ -56,12 +57,12 @@ if __name__ == '__main__':
         
     elif args.loader == 'forecast_csv':
         task_type = 'forecasting'
-        data, train_slice, valid_slice, test_slice, scaler, pred_lens, n_covariate_cols = datautils.load_forecast_csv(args.dataset)
+        data, train_slice, valid_slice, test_slice, scaler, pred_lens, n_covariate_cols = datautils.load_forecast_csv(args.dataset, time_features=args.time_feature)
         train_data = data[:, train_slice]
         
     elif args.loader == 'forecast_csv_univar':
         task_type = 'forecasting'
-        data, train_slice, valid_slice, test_slice, scaler, pred_lens, n_covariate_cols = datautils.load_forecast_csv(args.dataset, univar=True)
+        data, train_slice, valid_slice, test_slice, scaler, pred_lens, n_covariate_cols = datautils.load_forecast_csv(args.dataset, univar=True, time_features=args.time_feature)
         train_data = data[:, train_slice]
         
     elif args.loader == 'forecast_npy':
