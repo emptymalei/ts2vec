@@ -130,14 +130,19 @@ def _get_time_features(dt):
         dt.day.to_numpy(),
         dt.dayofyear.to_numpy(),
         dt.month.to_numpy(),
-        dt.weekofyear.to_numpy(),
-    ], axis=1).astype(np.float)
+        # dt.weekofyear.to_numpy(),
+        dt.isocalendar().week.to_numpy()
+    ], axis=1).astype(float)
 
 
-def load_forecast_csv(name, univar=False):
+def load_forecast_csv(name, univar=False, time_features=True):
     data = pd.read_csv(f'datasets/{name}.csv', index_col='date', parse_dates=True)
-    dt_embed = _get_time_features(data.index)
-    n_covariate_cols = dt_embed.shape[-1]
+    if time_features:
+        dt_embed = _get_time_features(data.index)
+        n_covariate_cols = dt_embed.shape[-1]
+    else:
+        dt_embed = None
+        n_covariate_cols = 0
     
     if univar:
         if name in ('ETTh1', 'ETTh2', 'ETTm1', 'ETTm2'):

@@ -1,0 +1,18 @@
+[project]
+name = "ts2vec"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "bottleneck>=1.4.0",
+    "matplotlib>=3.7.5",
+    "nbformat>=5.10.4",
+    "numpy>=1.24.4",
+    "pandas>=2.0.3",
+    "plotly>=6.4.0",
+    "scikit-learn>=1.3.2",
+    "scipy>=1.10.1",
+    "statsmodels>=0.14.1",
+    "torch>=2.5.1",
+]
